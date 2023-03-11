@@ -1,29 +1,21 @@
-﻿using System.Globalization;
-using BTB.Importer.Models;
-using CsvHelper;
-using AutoMapper;
-using BTB.Importer.Mappings;
+﻿using BTB.Importer.Mappings;
 
+namespace BTB.Importer;
 
-using (var reader = new StreamReader("./TestFiles/lodgify_example.csv"))
-using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+internal class Program
 {
-    csv.Context.RegisterClassMap<LodgifyModelMap>();
-
-    var records = csv.GetRecords<LodgifyModel>().ToList();
-
-    var mapper = LodgifyToBTBMapperConfig.InitializeAutomapper();
-
-    //var btbModel = records.ForEach(x => mapper.Map<BTBModel>(x));
-    var btbList = new List<BTBModel>();
-
-    foreach (var item in records)
+    //TODO: Do not allow "|" in any of the fields, it will fail to upload on BTB
+    public static void Main(string[] args)
     {
-        var test = mapper.Map<BTBModel>(item);
-        btbList.Add(test);
+        const string resultDirectoryPath = "./Output";
+        const string resultFilePath = $"{resultDirectoryPath}/Result.csv";
+        const string sourceCsv = "./TestFiles/lodgify_example.csv";
+
+        var btbList = new LodgifyToBTBMapperConfig().Map(sourceCsv);
+
+        btbList.SaveToFile(resultDirectoryPath, resultFilePath);
+
+        Console.WriteLine("COMPLETE!!!");
+        Console.ReadLine();
     }
-
 }
-
-
-Console.ReadLine();

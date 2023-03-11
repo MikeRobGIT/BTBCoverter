@@ -1,19 +1,20 @@
-﻿using System;
-using CsvHelper.Configuration;
+﻿using CsvHelper.Configuration;
 
 namespace BTB.Importer.Models
 {
     public class BTBModel
     {
-        public BTBModel() {
+        public BTBModel()
+        {
             var locServ = new LocationService();
-            var loc = locServ.GetRandomLocation();
-            CityTownVillage = loc.City;
-            StateProvinceDistrict = loc.State;
-            ResidentialCountry = loc.Country;
+            var (city, state, country) = locServ.GetRandomLocation();
+            CityTownVillage = city;
+            StateProvinceDistrict = state;
+            ResidentialCountry = country;
+            GuestNationality = country;
         }
 
-        public string ControlID { get; set; }
+        public string ControlID { get; set; } = "HOT08748";
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -33,8 +34,8 @@ namespace BTB.Importer.Models
         public int NumberOfChildren { get; set; } = 0;
         public string RentalSpaceNumber { get; set; }
         public int NightsOfStay { get; set; }
-        public DateTime CheckInDate { get; set; }
-        public DateTime CheckoutDate { get; set; }
+        public string CheckInDate { get; set; }
+        public string CheckoutDate { get; set; }
         public string HotelInvoiceNumber { get; set; }
         public string ReferenceNumber { get; set; }
         public string TaxExempt { get; set; }
