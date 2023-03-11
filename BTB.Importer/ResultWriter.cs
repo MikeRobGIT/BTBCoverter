@@ -18,7 +18,7 @@ namespace BTB.Importer
             using var sw = new StreamWriter(resultFilePath);
             using var cw = new CsvWriter(sw, new CsvConfiguration(CultureInfo.InvariantCulture)
             {
-                //HasHeaderRecord = false
+                HasHeaderRecord = false
             });
             cw.WriteRecords(btbList);
         }
